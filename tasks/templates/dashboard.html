@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Task Dashboard</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f4f6f9;
+}
+
+.container{
+    width:70%;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+}
+
+form{
+    margin:20px 0;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+}
+
+button{
+    padding:10px 15px;
+    background:blue;
+    color:white;
+    border:none;
+}
+
+.task{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:5px;
+}
+
+.completed{
+    color:green;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>My Tasks</h1>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="title" placeholder="Task Title" required>
+
+<textarea name="description" placeholder="Task Description"></textarea>
+
+<input type="date" name="deadline">
+
+<button type="submit">Add Task</button>
+
+</form>
+
+{% for task in tasks %}
+
+<div class="task">
+
+<h3>{{task.title}}</h3>
+
+<p>{{task.description}}</p>
+
+<p>Deadline: {{task.deadline}}</p>
+
+{% if task.completed %}
+<p class="completed">Completed</p>
+{% else %}
+
+<a href="/complete/{{task.id}}">Complete</a>
+
+{% endif %}
+
+<a href="/delete/{{task.id}}">Delete</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>
